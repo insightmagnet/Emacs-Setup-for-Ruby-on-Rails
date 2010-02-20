@@ -1,0 +1,6 @@
+#name : setup ... end
+#group : shoulda
+# --
+setup do
+  $0
+end

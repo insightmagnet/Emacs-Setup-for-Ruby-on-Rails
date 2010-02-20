@@ -1,0 +1,6 @@
+#name : context ... end
+#group : shoulda
+# --
+context "${condition}" do
+  $0
+end

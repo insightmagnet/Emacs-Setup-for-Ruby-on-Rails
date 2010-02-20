@@ -1,0 +1,12 @@
+#name : sort_list { |...| ... }
+# --
+
+    @cl_name = $1
+    @cur_sort = (params[:sort] || -3).to_i
+    @per_page = (params[:per_page] || 10).to_i
+    @sort_columns = ["name", "created_by", "start_time", "event_type"]
+
+    find_options = {:page => params[:page], :order => sort_condition(@cur_sort, @sort_columns)}
+    # In the view use,   <%= arr_to_table2 rows, :headings => headings, :cur_sort => @cur_sort  %>
+    $0
+

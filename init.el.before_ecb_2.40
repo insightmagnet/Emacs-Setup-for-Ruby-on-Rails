@@ -1,0 +1,144 @@
+(setq inhibit-startup-screen t)
+(setq initial-scratch-message nil)
+(setq make-backup-files nil)
+(setq require-final-newline t)
+(toggle-truncate-lines t)
+
+;;
+;; -- Colors and fonts
+;;
+(setq font-lock-maximum-decoration t)
+(set-background-color "#232323")
+(set-foreground-color "#cdcdcd")
+(set-face-background 'modeline "#343434")
+(set-face-foreground 'modeline "#abab23")
+(set-cursor-color "#782323")
+
+;; Selection
+(set-face-background 'region "#2323cd")
+
+;; List of available faces: http://www.gnu.org/software/emacs/elisp/html_node/Faces-for-Font-Lock.html
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(font-lock-comment-face ((t (:foreground "#656565"))))
+ '(font-lock-string-face ((t (:foreground "#bbff77"))))
+ '(font-lock-type-face ((t (:foreground "#ffdd77")))) ;; constants
+ '(font-lock-constant-face ((t (:foreground "#66bbff"))))
+ '(font-lock-keyword-face ((t (:foreground "#ff8844"))))  ;; Function names and ruby keywords
+ '(font-lock-variable-name-face ((t (:foreground "#ff6622")))) ;; true/false, nil, #{} within a string etc
+ ;; '(font-lock-builtin-face ((t (:foreground "#cc0000"))))  ;; No effect for ruby
+ ;; '(font-lock-function-name-face ((t (:foreground "#ff0000"))))
+ ;; '(font-lock-reference-face ((t (:foreground "#dd0000"))))
+ ;; '(font-lock-variable-type-face ((t (:foreground "#ffff99"))))
+ ;; '(font-lock-variable-constant-face ((t (:foreground "#ffff66"))))
+ )
+
+
+
+;; cedet
+;; See cedet/common/cedet.info for configuration details.
+(load-file "~/.emacs.d/plugins/cedet/common/cedet.el")
+; Enable EDE (Project Management) features
+(global-ede-mode 1)
+;; * This enables the database and idle reparse engines
+;(semantic-load-enable-minimum-features)
+;(setq semantic-load-turn-everything-on t)
+
+
+;; ecb
+(add-to-list 'load-path "~/.emacs.d/plugins/ecb")
+(require 'ecb)
+(setq ecb-tip-of-the-day nil)
+(setq ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
+(ecb-activate)
+;; (custom-set-variables
+;;   ;; custom-set-variables was added by Custom.
+;;   ;; If you edit it by hand, you could mess it up, so be careful.
+;;   ;; Your init file should contain only one such instance.
+;;   ;; If there is more than one, they won't work right.
+;;  '(ecb-layout-window-sizes (quote (("left8" (ecb-directories-buffer-name 0.23671497584541062 . 0.29310344827586204) (ecb-sources-buffer-name 0.23671497584541062 . 0.2413793103448276) (ecb-methods-buffer-name 0.23671497584541062 . 0.27586206896551724) (ecb-history-buffer-name 0.23671497584541062 . 0.1724137931034483)))))
+;;  '(ecb-options-version "2.40"))
+;; ; '(show-paren-mode t))
+
+(require 'ido)
+(ido-mode t)
+
+
+;; ruby-mode
+(add-to-list 'load-path "~/.emacs.d/plugins/ruby-mode")
+(require 'ruby-electric)
+(add-hook 'ruby-mode-hook 'turn-on-font-lock)
+
+;; (add-to-list 'auto-mode-alist '("\\.rjs$" . ruby-mode))
+
+;; ruby-block
+(add-to-list 'load-path "~/.emacs.d/plugins/ruby-block")
+(require 'ruby-block)
+
+(add-to-list 'load-path "~/.emacs.d/plugins/rhtml")
+(require 'rhtml-mode)
+
+(add-to-list 'load-path "~/.emacs.d/plugins/rinari")
+(require 'rinari)
+(setq rinari-tags-file-name "TAGS")
+
+;; yasnippet
+(add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
+(require 'yasnippet)
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/plugins/yasnippet/snippets")
+(load "~/.emacs.d/plugins/yasnippets-rails/setup.el")
+
+
+;; yaml
+(add-to-list 'load-path "~/.emacs.d/plugins/yaml-mode")
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+
+
+;; ruby-mode-hook
+(add-hook 'ruby-mode-hook
+         (lambda()
+           (add-hook 'write-file-functions
+                      '(lambda()
+                         (save-excursion
+                           (untabify (point-min) (point-max))
+                           (delete-trailing-whitespace)
+                           )))
+           (set (make-local-variable 'indent-tabs-mode) 'nil)
+           (set (make-local-variable 'tab-width) 2)
+           (imenu-add-to-menubar "IMENU")
+           (ruby-electric-mode t)
+           (ruby-block-mode t)
+           (local-set-key "\M-\C-i" 'ri-ruby-complete-symbol)
+           (define-key ruby-mode-map "\M-\C-o" 'rct-complete-symbol)
+           (local-set-key (kbd "<return>") 'newline-and-indent)
+))
+
+
+(add-hook 'rhtml-mode-hook
+         (lambda()
+           (add-hook 'write-file-functions
+                      '(lambda()
+                         (save-excursion
+                           (untabify (point-min) (point-max))
+                           (delete-trailing-whitespace)
+                           )))
+           (set (make-local-variable 'indent-tabs-mode) 'nil)
+           (set (make-local-variable 'tab-width) 2)
+           (ruby-electric-mode t)
+           (ruby-block-mode t)
+           (local-set-key (kbd "<return>") 'newline-and-indent)
+))
+
+;; -- Custom functions --
+
+(defun close-all-buffers ()
+  (interactive)
+  (mapc 'kill-buffer (buffer-list)))
+
+(global-set-key "\C-cx" 'close-all-buffers)
+

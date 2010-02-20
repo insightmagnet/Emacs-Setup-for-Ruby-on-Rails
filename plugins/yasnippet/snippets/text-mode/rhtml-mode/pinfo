@@ -1,0 +1,5 @@
+#name : <% pinfo %>
+# --
+<% @page_title =  "${title}" -%>
+<% @page_description = "${description}" -%>
+<% @meta_keywords = "${keywords}" -%>

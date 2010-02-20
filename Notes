@@ -1,0 +1,6 @@
+
+ECB Mode --
+* In ecb mode ecb-goto-window-* are linked to keyboard shortcuts C-c . g m etc to switch to ecb windows
+* ecb has preconfigured layouts to choose from, for the left windows
+
+

@@ -1,0 +1,8 @@
+#name : backlinks
+# --
+
+   <%  back_links =  [
+                link_to("${title}", ${url}),
+               ]
+   %>
+  <%= leftbar_backto back_links %>

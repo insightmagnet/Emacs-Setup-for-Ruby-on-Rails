@@ -1,0 +1,12 @@
+#name : edit_form
+# --
+  <% labelled_form_for :${1:model}, @$1, :url => $1_edit_path(:id => @$1.id) do |f| %>
+    <div id='err'><%= im_error_messages(@$1, {:action_name => "save the $1"}) %></div>
+    <%=  f.text_field :name %>
+    <%=  f.text_area  :description %>
+    $0
+    <%  more_options_box do %>
+    <% end %>
+    <%=  f.submit_and_cancel(:cancel_url => @$1.id ? $1_show_path(:id => @$1.id) : $1_list_path) %>
+  <% end %>
+

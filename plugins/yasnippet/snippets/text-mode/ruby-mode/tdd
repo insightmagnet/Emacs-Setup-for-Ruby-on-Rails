@@ -1,0 +1,5 @@
+#name : tdd
+#group : tests
+# --
+{:data => $1, :result => ${:true}},
+$0

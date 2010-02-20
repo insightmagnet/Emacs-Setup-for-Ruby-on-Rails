@@ -1,0 +1,12 @@
+#name : test_data
+#group : tests
+# --
+test_data =
+  [
+    {:data => $1, :result => ${2:true}},
+    $0
+  ]
+test_data.each{|td|
+  msg = "Testing with #{td[:data]} and expecting #{td[:result]}"
+  assert_equal td[:result], $3(td[:data]), msg
+}

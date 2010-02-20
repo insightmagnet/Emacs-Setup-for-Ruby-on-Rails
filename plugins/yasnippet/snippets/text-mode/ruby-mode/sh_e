@@ -1,0 +1,5 @@
+#name : should_eventually
+#group : shoulda
+# --
+should_eventually "${condition}"
+

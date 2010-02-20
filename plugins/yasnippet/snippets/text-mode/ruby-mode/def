@@ -1,0 +1,7 @@
+#name : def  ... end
+#group : definitions
+# --
+# ${comment}
+def ${self}
+  $0
+end
